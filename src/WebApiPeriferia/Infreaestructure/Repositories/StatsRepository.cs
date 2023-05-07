@@ -28,7 +28,7 @@ namespace Infraestructure.Repository
                             CountHumanDna = Convert.ToInt32(rdr.Tables[0].Rows[i]["count_human_dna"]),
                             CountMutantDna = Convert.ToInt32(rdr.Tables[0].Rows[i]["count_mutant_dna"]),
                         };
-                        response.Ratio = response.CountHumanDna > 0 ? response.CountMutantDna / response.CountHumanDna : 0;
+                        response.Ratio = response.CountHumanDna > 0 ? (Convert.ToDouble(response.CountMutantDna) / Convert.ToDouble(response.CountHumanDna)) : 0;
                     }
 
                 }

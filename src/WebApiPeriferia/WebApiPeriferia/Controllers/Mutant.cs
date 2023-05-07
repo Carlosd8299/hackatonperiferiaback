@@ -27,7 +27,7 @@ namespace WebApiPeriferia.Controllers
         {
             if (await _mediator.Send(dnaCommand))
             {
-                return StatusCode(StatusCodes.Status200OK, null);
+                return StatusCode(StatusCodes.Status200OK);
             }
             return StatusCode(StatusCodes.Status403Forbidden, null);
         }

@@ -3,9 +3,14 @@
 namespace Domain
 {
     public class Stat
-    { 
-        public int CountMutantDna { get; set; }    
-        public double Ratio { get; set; }
+    {
+        [JsonPropertyName("count_mutant_dna")]
+        public int CountMutantDna { get; set; }
+
+        [JsonPropertyName("count_human_dna")]
         public int CountHumanDna { get; set; }
+
+        [JsonPropertyName("ratio")]
+        public double Ratio { get; set; }
     }
 }

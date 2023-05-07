@@ -20,15 +20,7 @@ namespace WebApiPeriferia.Handlers
         public async Task<bool> Handle(PostMutantDnaCommand request, CancellationToken cancellationToken)
         {
             var array = request.dna;
-            string[,] matriz = new string[array.Length, array.First().Length];
-            for (int i = 0; i < array.Length; i++)
-            {
-                char[] splitedWord = array[i].ToCharArray();
-                for (int j = 0; j < splitedWord.Length; j++)
-                {
-                    matriz[i, j] = splitedWord[j].ToString();
-                }
-            }
+            string[,] matriz = await ConvertArrayToMatriz(array);
             if (await IsValidDna(matriz))
             {
                 _statsRepository.InsertStat(_settings.Value.Constants.MutantDnaType);
@@ -36,6 +28,7 @@ namespace WebApiPeriferia.Handlers
             }
             _statsRepository.InsertStat(_settings.Value.Constants.HumanDnaType);
             return false;
+
         }
         private async Task<bool> IsValidDna(string[,] matriz)
         {
@@ -104,7 +97,20 @@ namespace WebApiPeriferia.Handlers
             }
             return response;
         }
+        private async Task<string[,]> ConvertArrayToMatriz(string[] array)
+        {
+            string[,] matriz = new string[array.Length, array.First().Length];
+            for (int i = 0; i < array.Length; i++)
+            {
+                char[] splitedWord = array[i].ToCharArray();
+                for (int j = 0; j < splitedWord.Length; j++)
+                {
+                    matriz[i, j] = splitedWord[j].ToString();
+                }
+            }
 
+            return matriz;
+        }
 
     }
 }
