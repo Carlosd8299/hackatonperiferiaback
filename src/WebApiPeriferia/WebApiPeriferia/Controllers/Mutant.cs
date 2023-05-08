@@ -21,7 +21,7 @@ namespace WebApiPeriferia.Controllers
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        // POST api/<Mutant>
+        // POST mutant
         [HttpPost("mutant")]
         public async Task<IActionResult> Post([FromBody] PostMutantDnaCommand dnaCommand)
         {
@@ -32,7 +32,7 @@ namespace WebApiPeriferia.Controllers
             return StatusCode(StatusCodes.Status403Forbidden, null);
         }
 
-        // POST api/<Mutant>
+        // GET stats
         [HttpGet("stats")]
         public async Task<IActionResult> Stats([FromQuery] GetStatsQuery query)
         {

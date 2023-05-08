@@ -9,28 +9,29 @@ namespace WebApiPeriferia.Handlers
     public class PostMutantDnaCommandHandler : IRequestHandler<PostMutantDnaCommand, bool>
     {
         private IStatsRepository _statsRepository;
-        IOptions<InfraestructureSettings> _settings;
+        private string _mutantDnaType, _humanDnaType;
 
         public PostMutantDnaCommandHandler(IStatsRepository statsRepository, IOptions<InfraestructureSettings> settings)
         {
             this._statsRepository = statsRepository;
-            _settings = settings;
+            _mutantDnaType = settings.Value.Constants.MutantDnaType;
+            _humanDnaType = settings.Value.Constants.HumanDnaType;
         }
 
         public async Task<bool> Handle(PostMutantDnaCommand request, CancellationToken cancellationToken)
         {
             var array = request.dna;
-            string[,] matriz = await ConvertArrayToMatriz(array);
-            if (await IsValidDna(matriz))
+            string[,] matriz = ConvertArrayToMatriz(array);
+            if (IsValidDna(matriz))
             {
-                _statsRepository.InsertStat(_settings.Value.Constants.MutantDnaType);
+                await _statsRepository.InsertStat(_mutantDnaType);
                 return true;
             }
-            _statsRepository.InsertStat(_settings.Value.Constants.HumanDnaType);
+            await _statsRepository.InsertStat(_humanDnaType);
             return false;
 
         }
-        private async Task<bool> IsValidDna(string[,] matriz)
+        public bool IsValidDna(string[,] matriz)
         {
             bool response = false;
             int horizontalCountSecuency, verticalCountSecuency, diagonalCountSecuency = 1;
@@ -97,7 +98,7 @@ namespace WebApiPeriferia.Handlers
             }
             return response;
         }
-        private async Task<string[,]> ConvertArrayToMatriz(string[] array)
+        public string[,] ConvertArrayToMatriz(string[] array)
         {
             string[,] matriz = new string[array.Length, array.First().Length];
             for (int i = 0; i < array.Length; i++)

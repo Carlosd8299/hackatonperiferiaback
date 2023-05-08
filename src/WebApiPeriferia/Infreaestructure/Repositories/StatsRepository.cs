@@ -40,17 +40,18 @@ namespace Infraestructure.Repository
             }
         }
 
-        public async void InsertStat(string dnaType)
+        public async Task<bool> InsertStat(string dnaType)
         {
             string query = "";
             try
             {
                 query = $"INSERT INTO [dbo].[tblStats] ([DnaType]) VALUES ('{dnaType}')";
                 await ExecuteQuery(query);
+                return true;
             }
             catch (Exception ex)
             {
-                throw;
+                return false;
             }
         }
     }

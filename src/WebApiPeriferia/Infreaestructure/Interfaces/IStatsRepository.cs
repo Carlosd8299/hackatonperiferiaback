@@ -5,7 +5,7 @@ namespace Infraestructure.Interfaces
 {
     public interface IStatsRepository
     {
-        public void InsertStat(string dnaType);
+        public Task<bool> InsertStat(string dnaType);
         public Task<GetStatsQueryResponse> GetStats();
     }
 }
